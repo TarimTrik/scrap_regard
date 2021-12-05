@@ -16,6 +16,9 @@ path_temp = 'scrap_regard/temp'
 path_data = 'scrap_regard/data'
 
 def get_catalog_href(url, headers, path_temp):
+    '''
+    Find all catalog(menu_list) url, and create file in to temp folder 
+    '''
 
     respons = requests.get(url, headers=headers)
 
@@ -48,7 +51,8 @@ def get_catalog_href(url, headers, path_temp):
 
 def get_links(headers, path_temp):
     '''
-    docstring
+    Goes to the link from catalog(menu_list), on this page searches for pagination and products, 
+    Saves the product name and link to it, and goes to the next page from pagination, when pagination is over goes to the next link in catalog(menu_list). 
     '''
 
     block_links = {}
@@ -111,6 +115,9 @@ def get_links(headers, path_temp):
 
 
 def get_data_page(path_data, headers):
+    '''
+    docstring
+    '''
 
     with open(f'{path_data}/links_tovarov.json')as file:
         tovar_links = json.load(file)
@@ -139,6 +146,11 @@ def get_data_page(path_data, headers):
 
 
 def main(path_data, path_temp):
+    '''
+    Checks for folders (folder name), if not, creates them.
+    Launches all functions in the order of their operation.
+    '''
+
     if not os.path.exists(path_data):
         os.mkdir(path_data)
 
