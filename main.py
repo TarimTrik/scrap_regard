@@ -114,36 +114,6 @@ def get_links(headers, path_temp):
 
 
 
-def get_data_page(path_data, headers):
-    '''
-    docstring
-    '''
-
-    with open(f'{path_data}/links_tovarov.json')as file:
-        tovar_links = json.load(file)
-
-    data_list = {}
-    
-    for name, link in tovar_links.items():
-        resp = requests.get(link, headers=headers)
-        soup = BeautifulSoup(resp.text, 'lxml')
-
-        tabs = soup.find('div', id='hits-long', class_='container').find('div', id='tabs')
-        tabs_table = tabs.find('div', id='tabs-1').find('tbody').find_all('tr')
-
-        for tds in tabs_table:
-            tds_first_name = tds.find('td', class_='first').text
-            tds_second_name =  tds.find('td')
-
-    data_list[tds_first_name] = tds_second_name
-
-
-    # треба зробити шоб стягувало з сторінки всі дані
-    # але є нюанс на кожному каталозі є рієні дані 
-    # але все в вигляді таблиць 
-
-    
-
 
 def main(path_data, path_temp):
     '''
@@ -157,9 +127,8 @@ def main(path_data, path_temp):
     if not os.path.exists(path_temp):
         os.mkdir(path_temp)
 
-    # get_catalog_href(url, headers, path_temp)
+    get_catalog_href(url, headers, path_temp)
     # get_links(headers, path_temp)
-    get_data_page(path_data, headers)
 
 if __name__ == "__main__":
     main(path_data, path_temp)
